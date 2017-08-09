@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017.  | Volodymyr Korobko | volodymyr.korobko@gmail.com
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.korobko.automotiveapp">
 
@@ -19,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".AMService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
