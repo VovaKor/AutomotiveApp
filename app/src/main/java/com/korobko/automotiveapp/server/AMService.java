@@ -50,7 +50,7 @@ public class AMService extends Service {
         // Tell the user we stopped.
         Toast.makeText(this, R.string.server_service_stopped, Toast.LENGTH_SHORT).show();
         mServer = null;
-        someRes = null;
+
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {

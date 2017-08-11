@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="driver"
+            type="com.korobko.automotiveapp.server.Driver" />
+    </data>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <EditText
+            android:id="@+id/driver_add_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edit_text_hint_email"
+            android:inputType="textEmailAddress"
+            android:text="@{driver.id}"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <EditText
+            android:id="@+id/driver_add_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{driver.firstName}"
+            android:hint="@string/edit_text_hint_first_name"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            />
+        <EditText
+            android:id="@+id/driver_add_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edit_text_hint_last_name"
+            android:text="@{driver.lastName}"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <EditText
+            android:id="@+id/driver_add_licence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{driver.licenceNumber}"
+            android:hint="@string/edit_text_hint_licence"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            />
+        <EditText
+            android:id="@+id/driver_add_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:text="@{driver.phone}"
+            android:hint="@string/edit_text_hint_phone"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            />
+    </LinearLayout>
+</ScrollView>
+
+</layout>

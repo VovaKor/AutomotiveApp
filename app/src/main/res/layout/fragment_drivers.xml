@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="drivers"
+            type="com.korobko.automotiveapp.client.drivers.DriversViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="com.korobko.automotiveapp.client.drivers.DriversContract.Presenter" />
+    </data>
+
+<com.korobko.automotiveapp.client.drivers.ScrollChildSwipeRefreshLayout
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onRefresh="@{actionHandler}">
+
+    <RelativeLayout
+        android:id="@+id/driversContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/driversLL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="@{drivers.notEmpty ? View.VISIBLE : View.GONE}">
+
+            <ListView
+                android:id="@+id/list_view_drivers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/noDriversLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="@{drivers.notEmpty ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:id="@+id/noDriversAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/touch_feedback"
+                android:gravity="center"
+                android:text="@string/frag_drivers_text_view_no_drivers"
+                android:onClick="@{() -> actionHandler.addNewDriver()}"
+
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+</com.korobko.automotiveapp.client.drivers.ScrollChildSwipeRefreshLayout>
+</layout>
+

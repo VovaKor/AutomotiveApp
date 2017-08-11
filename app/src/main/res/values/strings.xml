@@ -11,4 +11,23 @@
     <string name="action_settings">Settings</string>
     <string name="server_service_started">Automotive server is running</string>
     <string name="server_service_stopped">Automotive service has been stopped</string>
+    <string name="nav_header_description">Saves data about drivers and their cars</string>
+    <string name="nav_header_title">Automotive saver</string>
+    <string name="drawer_actions_list_title">Driver list</string>
+    <string name="frag_drivers_text_view_no_drivers">Add a new driver +</string>
+    <string name="fragment_menu_refresh_drivers">Refresh drivers list</string>
+    <string name="success_driver_saved">Driver saved</string>
+    <string name="error_drivers_loading">Error while loading drivers</string>
+    <string name="menu_fragment_driver_delete">Delete driver</string>
+    <string name="error_driver_details_loading">An error occurred loading driver</string>
+    <string name="action_bar_edit_driver">Edit driver</string>
+    <string name="action_bar_add_driver">New driver</string>
+    <string name="edit_text_hint_email">Enter driver\'s email</string>
+    <string name="edit_text_hint_first_name">Enter driver\'s first name</string>
+    <string name="edit_text_hint_last_name">Enter driver\'s last name</string>
+    <string name="edit_text_hint_licence">Enter driver\'s licence number</string>
+    <string name="edit_text_hint_phone">Enter driver\'s phone number</string>
+    <string name="error_text_edit_field_empty">All fields required</string>
+    <string name="error_email_invalid">An email can contain only \'@\', \'.\', latin letters, digits</string>
+    <string name="error_email_exists">This email already exists</string>
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="driver"
+            type="com.korobko.automotiveapp.server.Driver" />
+
+        <variable
+            name="presenter"
+            type="com.korobko.automotiveapp.client.driverdetail.DriverDetailContract.Presenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:visibility="@{driver == null ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:id="@+id/driver_detail_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{driver.id}"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/driver_detail_first_name"
+                android:layout_below="@id/driver_detail_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{driver.firstName}"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/driver_detail_last_name"
+                android:layout_below="@id/driver_detail_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{driver.lastName}"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/driver_detail_licence"
+                android:layout_below="@id/driver_detail_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{driver.licenceNumber}"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/driver_detail_phone"
+                android:layout_below="@id/driver_detail_licence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{driver.phone}"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
