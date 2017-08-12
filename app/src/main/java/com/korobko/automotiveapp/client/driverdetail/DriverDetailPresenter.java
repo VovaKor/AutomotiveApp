@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.korobko.automotiveapp.client.repository.DriversDataSource;
 import com.korobko.automotiveapp.client.repository.DriversRepository;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 /**
  * Listens to user actions from the UI ({@link DriverDetailFragment}), retrieves the data and updates
@@ -51,7 +51,7 @@ public class DriverDetailPresenter implements DriverDetailContract.Presenter {
                 if (driver != null) {
                     mDriverDetailView.showDriver(driver);
                 } else {
-                    mDriverDetailView.showError();
+                    mDriverDetailView.showErrorLoadDriver();
                 }
             }
 
@@ -61,15 +61,25 @@ public class DriverDetailPresenter implements DriverDetailContract.Presenter {
                 if (!mDriverDetailView.isActive()) {
                     return;
                 }
-                mDriverDetailView.showError();
+                mDriverDetailView.showErrorLoadDriver();
             }
         });
     }
 
     @Override
     public void deleteDriver(String driverId) {
-        mRepository.deleteDriver(driverId);
-        mDriverDetailView.showDriverDeleted();
+        mRepository.deleteDriver(driverId, new DriversDataSource.DeleteDriverCallback() {
+            @Override
+            public void onSuccess() {
+                mDriverDetailView.showDriverDeleted();
+            }
+
+            @Override
+            public void onError() {
+                mDriverDetailView.showErrorDeleteDriver();
+            }
+        });
+
     }
 
 }

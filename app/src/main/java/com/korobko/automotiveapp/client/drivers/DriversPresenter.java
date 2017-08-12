@@ -9,10 +9,9 @@ import android.support.annotation.NonNull;
 
 import com.korobko.automotiveapp.client.repository.DriversDataSource;
 import com.korobko.automotiveapp.client.repository.DriversRepository;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 import com.korobko.automotiveapp.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +66,7 @@ public class DriversPresenter implements DriversContract.Presenter {
                 if (!mDriversView.isActive()) {
                     return;
                 }
+                mDriversView.setLoadingIndicator(false);
                 mDriversView.showLoadingDriversError();
 
             }

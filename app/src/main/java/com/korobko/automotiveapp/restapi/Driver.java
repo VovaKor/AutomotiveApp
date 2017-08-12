@@ -2,10 +2,13 @@
  * Copyright (c) 2017.  | Volodymyr Korobko | volodymyr.korobko@gmail.com
  */
 
-package com.korobko.automotiveapp.server;
+package com.korobko.automotiveapp.restapi;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -14,16 +17,27 @@ import java.util.List;
  */
 public final class Driver {
 
+    @SerializedName("id")
+    @Expose
     @NonNull
     private final String id;
+    @SerializedName("fname")
+    @Expose
     @NonNull
     private final String firstName;
+    @SerializedName("lname")
+    @Expose
     @NonNull
     private final String lastName;
+    @SerializedName("phone")
+    @Expose
     @NonNull
     private final String phone;
+    @SerializedName("lnum")
+    @Expose
     @NonNull
     private final String licenceNumber;
+
 
     public Driver(@NonNull String id, @NonNull String firstName, @NonNull String lastName, @NonNull String phone, @NonNull String licenceNumber) {
         this.id = id;
@@ -59,4 +73,14 @@ public final class Driver {
         return licenceNumber;
     }
 
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", licenceNumber='" + licenceNumber + '\'' +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="driver"
-            type="com.korobko.automotiveapp.server.Driver" />
+            type="com.korobko.automotiveapp.restapi.Driver" />
     </data>
 
 <ScrollView

@@ -20,8 +20,9 @@ import android.view.ViewGroup;
 
 import com.korobko.automotiveapp.R;
 import com.korobko.automotiveapp.client.addeditdriver.AddEditDriverActivity;
+
 import com.korobko.automotiveapp.databinding.FragmentDriverDetailsBinding;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 import com.korobko.automotiveapp.utils.Constants;
 
 /**
@@ -120,7 +121,7 @@ public class DriverDetailFragment extends Fragment implements DriverDetailContra
     }
 
     @Override
-    public void showError() {
+    public void showErrorLoadDriver() {
         // If an error occurred, simply show an empty task.
         Snackbar.make(getView(), getString(R.string.error_driver_details_loading), Snackbar.LENGTH_LONG)
                 .show();
@@ -134,5 +135,11 @@ public class DriverDetailFragment extends Fragment implements DriverDetailContra
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void showErrorDeleteDriver() {
+        Snackbar.make(getView(), getString(R.string.error_delete_driver), Snackbar.LENGTH_LONG)
+                .show();
     }
 }

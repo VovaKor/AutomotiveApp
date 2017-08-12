@@ -7,7 +7,7 @@ package com.korobko.automotiveapp.client.driverdetail;
 
 import com.korobko.automotiveapp.BasePresenter;
 import com.korobko.automotiveapp.BaseView;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -18,11 +18,13 @@ public interface DriverDetailContract {
 
         void showDriver(Driver driver);
 
-        void showError();
+        void showErrorLoadDriver();
 
         void showDriverDeleted();
 
         boolean isActive();
+
+        void showErrorDeleteDriver();
     }
 
     interface Presenter extends BasePresenter {

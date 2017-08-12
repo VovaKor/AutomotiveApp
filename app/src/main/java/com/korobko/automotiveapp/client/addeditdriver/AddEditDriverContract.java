@@ -6,7 +6,7 @@ package com.korobko.automotiveapp.client.addeditdriver;
 
 import com.korobko.automotiveapp.BasePresenter;
 import com.korobko.automotiveapp.BaseView;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 /**
  * This specifies the contract between the view and the presenter.

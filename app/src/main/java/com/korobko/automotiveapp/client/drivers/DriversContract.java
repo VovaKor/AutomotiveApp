@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.korobko.automotiveapp.BasePresenter;
 import com.korobko.automotiveapp.BaseView;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 import java.util.List;
 

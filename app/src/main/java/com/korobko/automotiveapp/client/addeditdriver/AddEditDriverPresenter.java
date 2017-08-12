@@ -7,9 +7,10 @@ package com.korobko.automotiveapp.client.addeditdriver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.korobko.automotiveapp.client.repository.DriversDataSource;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 import static com.korobko.automotiveapp.utils.Constants.EMAIL_REGEXP;
 
@@ -66,22 +67,27 @@ public class AddEditDriverPresenter implements AddEditDriverContract.Presenter,
         }else if (!id.matches(EMAIL_REGEXP)){
             mAddEditDriverView.showInvalidEmailError();
         }else {
-            Driver driver = new Driver(id,firstName,lastName,phone,licence);
+            Driver driverToSave = new Driver(id,firstName,lastName,phone,licence);
             if (isNewDriver()){
                 mDriversRepository.getDriver(id, new DriversDataSource.GetDriverCallback() {
+
                     @Override
                     public void onDriverLoaded(Driver driver) {
-                        mAddEditDriverView.showErrorEmailExist();
+
+                            mAddEditDriverView.showErrorEmailExist();
+
                     }
 
                     @Override
                     public void onDataNotAvailable() {
 
-                        saveDriver(driver);
+                        createDriver(driverToSave);
                     }
+
+
                 });
             }else {
-                saveDriver(driver);
+                saveDriver(driverToSave);
             }
 
 
@@ -126,7 +132,34 @@ public class AddEditDriverPresenter implements AddEditDriverContract.Presenter,
 
     private void saveDriver(Driver driver) {
 
-        mDriversRepository.saveDriver(driver);
-        mAddEditDriverView.showDriversList(); // After an edit, go back to the list.
+        mDriversRepository.saveDriver(driver, new DriversDataSource.SaveDriverCallback() {
+            @Override
+            public void onSuccess() {
+                // After an edit, go back to the list.
+                mAddEditDriverView.showDriversList();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+    }
+
+    private void createDriver(Driver driver) {
+        mDriversRepository.createDriver(driver, new DriversDataSource.SaveDriverCallback() {
+            @Override
+            public void onSuccess() {
+
+                mAddEditDriverView.showDriversList();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
     }
 }

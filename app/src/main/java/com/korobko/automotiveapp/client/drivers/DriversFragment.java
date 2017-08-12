@@ -26,9 +26,10 @@ import android.widget.ListView;
 import com.korobko.automotiveapp.R;
 import com.korobko.automotiveapp.client.addeditdriver.AddEditDriverActivity;
 import com.korobko.automotiveapp.client.driverdetail.DriverDetailActivity;
+
 import com.korobko.automotiveapp.databinding.FragmentDriversBinding;
 import com.korobko.automotiveapp.databinding.ListViewItemDriversBinding;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 import com.korobko.automotiveapp.utils.Constants;
 
 import java.util.ArrayList;

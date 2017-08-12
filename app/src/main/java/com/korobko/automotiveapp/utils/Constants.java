@@ -9,9 +9,18 @@ package com.korobko.automotiveapp.utils;
  */
 
 public class Constants {
+
+    //Server side constants
     public static final int NOTIFICATION_ID = 1;
     public static final int PORT = 5000;
-    public static final String BASE_URL = "http://localhost:";
+    public static final String URL_BASE = "http://localhost:"+PORT;
+    public static final String URL_DRIVERS = "/api/v1/drivers";
+    public static final String ID_REGEXP = "\\w+@\\w+\\.[a-z]+";
+    public static final String SLASH = "/";
+    public static final String URL_DRIVERS_ADD = "/api/v1/drivers/add";
+    public static final String URL_DRIVERS_UPDATE = "/api/v1/drivers/update";
+    public static final String URL_DRIVERS_DELETE = "/api/v1/drivers/delete/";
+    //Client side constants
     public static final int REQUEST_CODE_ADD_DRIVER = 1;
     public static final String EXTRA_DRIVER_ID = "DRIVER_ID";
     public static final String ARGUMENT_DRIVER_ID = "DRIVER_ID";

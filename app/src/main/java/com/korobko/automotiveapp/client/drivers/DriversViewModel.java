@@ -10,6 +10,7 @@ import android.databinding.Bindable;
 
 import com.korobko.automotiveapp.BR;
 
+
 /**
  * Exposes the data to be used in the {@link DriversContract.View}.
  * <p>

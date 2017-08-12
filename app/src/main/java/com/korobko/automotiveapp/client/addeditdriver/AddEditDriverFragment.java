@@ -17,8 +17,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.korobko.automotiveapp.R;
+
 import com.korobko.automotiveapp.databinding.FragmentAddEditDriverBinding;
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 /**
  * Main UI for the add/edit driver screen.

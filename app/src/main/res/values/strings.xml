@@ -30,4 +30,5 @@
     <string name="error_text_edit_field_empty">All fields required</string>
     <string name="error_email_invalid">An email can contain only \'@\', \'.\', latin letters, digits</string>
     <string name="error_email_exists">This email already exists</string>
+    <string name="error_delete_driver">An error occurred deleting driver</string>
 </resources>

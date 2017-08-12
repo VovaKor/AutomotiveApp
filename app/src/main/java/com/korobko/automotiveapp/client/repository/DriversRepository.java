@@ -6,7 +6,7 @@ package com.korobko.automotiveapp.client.repository;
 
 import android.support.annotation.NonNull;
 
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 import java.util.List;
 
@@ -60,10 +60,35 @@ public class DriversRepository implements DriversDataSource {
     }
 
     @Override
-    public void saveDriver(@NonNull Driver driver) {
+    public void saveDriver(@NonNull Driver driver, @NonNull SaveDriverCallback callback) {
 
-        mDriversRemoteDataSource.saveDriver(driver);
+        mDriversRemoteDataSource.saveDriver(driver, new SaveDriverCallback() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
 
+            @Override
+            public void onError() {
+                callback.onError();
+            }
+        });
+
+    }
+
+    @Override
+    public void createDriver(@NonNull Driver driver, @NonNull SaveDriverCallback callback) {
+        mDriversRemoteDataSource.createDriver(driver, new SaveDriverCallback() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError() {
+                callback.onError();
+            }
+        });
     }
 
     /**
@@ -86,8 +111,18 @@ public class DriversRepository implements DriversDataSource {
     }
 
     @Override
-    public void deleteDriver(@NonNull String driverId) {
-        mDriversRemoteDataSource.deleteDriver(driverId);
+    public void deleteDriver(@NonNull String driverId, @NonNull final DeleteDriverCallback callback) {
+        mDriversRemoteDataSource.deleteDriver(driverId, new DeleteDriverCallback() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError() {
+                callback.onError();
+            }
+        });
 
     }
 

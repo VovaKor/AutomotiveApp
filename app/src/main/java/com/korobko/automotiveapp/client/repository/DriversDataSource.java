@@ -6,7 +6,7 @@ package com.korobko.automotiveapp.client.repository;
 
 import android.support.annotation.NonNull;
 
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 import java.util.List;
 
@@ -29,11 +29,26 @@ public interface DriversDataSource {
         void onDataNotAvailable();
     }
 
+    interface DeleteDriverCallback {
+
+        void onSuccess();
+
+        void onError();
+    }
+    interface SaveDriverCallback {
+
+        void onSuccess();
+
+        void onError();
+    }
+
     void getDrivers(@NonNull LoadDriversCallback callback);
 
-    void saveDriver(@NonNull Driver driver);
+    void saveDriver(@NonNull Driver driver, @NonNull SaveDriverCallback callback);
+
+    void createDriver(@NonNull Driver driver, @NonNull SaveDriverCallback callback);
 
     void getDriver(@NonNull String driverId, @NonNull GetDriverCallback callback);
 
-    void deleteDriver(@NonNull String driverId);
+    void deleteDriver(@NonNull String driverId, @NonNull DeleteDriverCallback callback);
 }

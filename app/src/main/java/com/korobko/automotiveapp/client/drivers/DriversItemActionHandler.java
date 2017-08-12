@@ -4,7 +4,7 @@
 
 package com.korobko.automotiveapp.client.drivers;
 
-import com.korobko.automotiveapp.server.Driver;
+import com.korobko.automotiveapp.restapi.Driver;
 
 /**
  * Listens to user actions from the list item in ({@link DriversFragment}) and redirects them to the
