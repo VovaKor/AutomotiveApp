@@ -7,12 +7,11 @@ package com.korobko.automotiveapp.client.addeditdriver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.korobko.automotiveapp.client.repository.DriversDataSource;
 import com.korobko.automotiveapp.restapi.Driver;
 
-import static com.korobko.automotiveapp.utils.Constants.EMAIL_REGEXP;
+import static com.korobko.automotiveapp.utils.Constants.REGEXP_EMAIL;
 
 /**
  * Listens to user actions from the UI ({@link AddEditDriverFragment}), retrieves the data and updates
@@ -64,7 +63,7 @@ public class AddEditDriverPresenter implements AddEditDriverContract.Presenter,
                 ||TextUtils.isEmpty(licence)
                 ||TextUtils.isEmpty(phone)){
             mAddEditDriverView.showErrorEmptyField();
-        }else if (!id.matches(EMAIL_REGEXP)){
+        }else if (!id.matches(REGEXP_EMAIL)){
             mAddEditDriverView.showInvalidEmailError();
         }else {
             Driver driverToSave = new Driver(id,firstName,lastName,phone,licence);

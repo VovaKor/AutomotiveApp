@@ -4,35 +4,25 @@
 
 package com.korobko.automotiveapp;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.korobko.automotiveapp.restapi.Driver;
 import com.korobko.automotiveapp.utils.Constants;
-import com.koushikdutta.async.AsyncServer;
-import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.DataEmitter;
 import com.koushikdutta.async.callback.CompletedCallback;
-import com.koushikdutta.async.callback.DataCallback;
 import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpGet;
 import com.koushikdutta.async.http.AsyncHttpPost;
 import com.koushikdutta.async.http.AsyncHttpResponse;
 import com.koushikdutta.async.http.body.JSONObjectBody;
-import com.koushikdutta.async.http.body.MultipartFormDataBody;
-import com.koushikdutta.async.http.body.Part;
 import com.koushikdutta.async.http.body.StringBody;
 import com.koushikdutta.async.http.server.AsyncHttpServer;
 import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
 import com.koushikdutta.async.http.server.AsyncHttpServerResponse;
 import com.koushikdutta.async.http.server.HttpServerRequestCallback;
 
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -67,7 +57,7 @@ public class ServerTests extends AndroidTestCase {
         json = AutomotiveApp.getGson().toJson(driver);
 
 
-        httpServer.post(Constants.URL_DRIVERS_ADD, new HttpServerRequestCallback() {
+        httpServer.post(Constants.URL_ADD_REGISTRATION_CARD, new HttpServerRequestCallback() {
 
             @Override
             public void onRequest(final AsyncHttpServerRequest request, final AsyncHttpServerResponse response) {
@@ -83,7 +73,7 @@ public class ServerTests extends AndroidTestCase {
                 });
             }
         });
-        httpServer.get(Constants.URL_DRIVERS,(request, response) -> response.send("test"));
+        httpServer.get(Constants.URL_GET_ALL_REGISTRATION_CARDS,(request, response) -> response.send("test"));
         httpServer.listen(Constants.PORT);
     }
 
@@ -98,7 +88,7 @@ public class ServerTests extends AndroidTestCase {
         if (httpServer == null) {
             setUp();
         }
-        AsyncHttpGet request = new AsyncHttpGet(Constants.URL_BASE+Constants.URL_DRIVERS);
+        AsyncHttpGet request = new AsyncHttpGet(Constants.URL_BASE+Constants.URL_GET_ALL_REGISTRATION_CARDS);
         AsyncHttpClient.getDefaultInstance().executeString(request, new AsyncHttpClient.StringCallback() {
             @Override
             public void onCompleted(Exception e, AsyncHttpResponse source, String result) {
@@ -119,7 +109,7 @@ public class ServerTests extends AndroidTestCase {
 //
 //        final String FIELD_VAL = "bar";
 
-        AsyncHttpPost post = new AsyncHttpPost(Constants.URL_BASE+Constants.URL_DRIVERS_ADD);
+        AsyncHttpPost post = new AsyncHttpPost(Constants.URL_BASE+Constants.URL_ADD_REGISTRATION_CARD);
 
         //        JSONObject jsonObject = new JSONObject(json);
 //        JSONObjectBody jsonObjectBody = new JSONObjectBody(jsonObject);

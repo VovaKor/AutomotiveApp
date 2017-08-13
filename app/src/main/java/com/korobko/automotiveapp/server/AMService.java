@@ -13,37 +13,36 @@ import android.widget.Toast;
 
 import com.korobko.automotiveapp.AutomotiveApp;
 import com.korobko.automotiveapp.R;
-import com.korobko.automotiveapp.restapi.Driver;
+import com.korobko.automotiveapp.restapi.RegistrationCard;
+import com.korobko.automotiveapp.server.repository.DataSource;
+import com.korobko.automotiveapp.server.repository.LocalDataSource;
 import com.korobko.automotiveapp.utils.Constants;
 import com.koushikdutta.async.http.body.JSONObjectBody;
 import com.koushikdutta.async.http.server.AsyncHttpServer;
-import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
-import com.koushikdutta.async.http.server.AsyncHttpServerResponse;
-import com.koushikdutta.async.http.server.HttpServerRequestCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.korobko.automotiveapp.utils.Constants.ID_REGEXP;
+import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_CREATED;
+import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_INTERNAL_SERVER_ERROR;
+import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_NOT_FOUND;
+import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_OK;
+import static com.korobko.automotiveapp.utils.Constants.REGEXP_CARD_ID;
 import static com.korobko.automotiveapp.utils.Constants.PORT;
 import static com.korobko.automotiveapp.utils.Constants.SLASH;
-import static com.korobko.automotiveapp.utils.Constants.URL_DRIVERS_ADD;
-import static com.korobko.automotiveapp.utils.Constants.URL_DRIVERS;
-import static com.korobko.automotiveapp.utils.Constants.URL_DRIVERS_DELETE;
-import static com.korobko.automotiveapp.utils.Constants.URL_DRIVERS_UPDATE;
+import static com.korobko.automotiveapp.utils.Constants.URL_ADD_REGISTRATION_CARD;
+import static com.korobko.automotiveapp.utils.Constants.URL_GET_ALL_REGISTRATION_CARDS;
+import static com.korobko.automotiveapp.utils.Constants.URL_DELETE_REGISTRATION_CARD;
+import static com.korobko.automotiveapp.utils.Constants.URL_UPDATE_REGISTRATION_CARD;
 
 public class AMService extends Service {
 
     private AsyncHttpServer mServer;
-
+    private LocalDataSource mLocalDataSource;
 
     public void onCreate() {
         super.onCreate();
         mServer = new AsyncHttpServer();
-
+        mLocalDataSource = LocalDataSource.getInstance(getApplicationContext());
         CharSequence text = getText(R.string.server_service_started);
 
         Notification notification = new Notification.Builder(this)
@@ -74,48 +73,90 @@ public class AMService extends Service {
 
     private void startServer() {
 
-        mServer.get(URL_DRIVERS+SLASH+ID_REGEXP, (request, response) -> {
-            String driverId = request.getPath().replace(URL_DRIVERS+SLASH,"");
-//            String json = AutomotiveApp.getGson().toJson(new Driver("","","","",""));
-//            try {
-//                JSONObject jsonObject = new JSONObject("");
-//                response.send(jsonObject);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+        mServer.get(URL_GET_ALL_REGISTRATION_CARDS+SLASH+ REGEXP_CARD_ID, (request, response) -> {
+            String cardId = request.getPath().replace(URL_GET_ALL_REGISTRATION_CARDS+SLASH,"");
+            mLocalDataSource.getRegistrationCard(cardId, new DataSource.GetCardCallback() {
+                @Override
+                public void onCardLoaded(RegistrationCard registrationCard) {
+                    String json = AutomotiveApp.getGson().toJson(registrationCard);
+                    response.send(json);
+                }
 
-            Log.d(this.getPackageName(),"Driver id from get request "+driverId);
+                @Override
+                public void onDataNotAvailable() {
+                    response.code(HTTP_CODE_NOT_FOUND).end();
+                }
+            });
+
         });
 
-        mServer.get(URL_DRIVERS, (request, response) -> {
-            List<Driver> drivers = new ArrayList<Driver>();
-            for (int i = 0; i < 100 ; i++) {
-                Driver driver = new Driver("driver"+i+"@driver.com",
-                        "Test first name "+i, "Test last name "+i, "555-55-5"+i,"ADSF3456"+i);
-                drivers.add(driver);
-            }
+        mServer.get(URL_GET_ALL_REGISTRATION_CARDS, (request, response) -> {
+            mLocalDataSource.getRegistrationCards(new DataSource.LoadCardsCallback() {
+                @Override
+                public void onCardsLoaded(List<RegistrationCard> registrationCards) {
+                    String json = AutomotiveApp.getGson().toJson(registrationCards);
+                    response.send(json);
+                }
 
-            String json = AutomotiveApp.getGson().toJson(drivers);
-            response.send(json);
-            Log.d(this.getPackageName(),json);
+                @Override
+                public void onDataNotAvailable() {
+                    response.code(HTTP_CODE_NOT_FOUND).end();
+                }
+            });
+
         });
 
 
-        mServer.post(URL_DRIVERS_ADD, (request, response) -> {
-            Log.d(this.toString(), "server post onRequest: "+request.getBody().toString());
+        mServer.post(URL_ADD_REGISTRATION_CARD, (request, response) -> {
             final JSONObjectBody body = (JSONObjectBody) request.getBody();
+            String json = body.get().toString();
+            RegistrationCard card = AutomotiveApp.getGson().fromJson(json, RegistrationCard.class);
+            mLocalDataSource.createRegistrationCard(card, new DataSource.SaveCardCallback() {
+                @Override
+                public void onSuccess() {
+                    response.code(HTTP_CODE_CREATED).end();
+                }
 
+                @Override
+                public void onError() {
+                    response.code(HTTP_CODE_INTERNAL_SERVER_ERROR).end();
+                }
+            });
         });
 
-        mServer.post(URL_DRIVERS_UPDATE, (request, response) -> {
-            String json = (String) request.getBody().get();
-            Driver driver = AutomotiveApp.getGson().fromJson(json, Driver.class);
-            Log.d(this.getPackageName(),URL_DRIVERS_UPDATE+driver.toString());
+        mServer.post(URL_UPDATE_REGISTRATION_CARD, (request, response) -> {
+            final JSONObjectBody body = (JSONObjectBody) request.getBody();
+            String json = body.get().toString();
+            RegistrationCard card = AutomotiveApp.getGson().fromJson(json, RegistrationCard.class);
+            mLocalDataSource.saveRegistrationCard(card, new DataSource.GetCardCallback() {
+                @Override
+                public void onCardLoaded(RegistrationCard registrationCard) {
+
+                    //There must be some logic on the client to check if update was successful
+                    String json = AutomotiveApp.getGson().toJson(registrationCard);
+                    response.send(json);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    response.code(HTTP_CODE_INTERNAL_SERVER_ERROR).end();
+                }
+            });
         });
 
-        mServer.get(URL_DRIVERS_DELETE+ID_REGEXP, (request, response) -> {
-            String driverId = request.getPath().replace(URL_DRIVERS_DELETE,"");
-            Log.d(this.getPackageName(),"Driver id from delete request "+driverId);
+        mServer.get(URL_DELETE_REGISTRATION_CARD+REGEXP_CARD_ID, (request, response) -> {
+            String cardId = request.getPath().replace(URL_DELETE_REGISTRATION_CARD,"");
+            mLocalDataSource.deleteRegistrationCard(cardId, new DataSource.DeleteCardCallback() {
+                @Override
+                public void onSuccess() {
+                    response.code(HTTP_CODE_OK).end();
+                }
+
+                @Override
+                public void onError() {
+                    response.code(HTTP_CODE_NOT_FOUND).end();
+                }
+            });
         });
 
         mServer.listen(PORT);
