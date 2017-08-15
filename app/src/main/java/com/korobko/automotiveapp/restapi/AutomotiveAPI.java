@@ -4,6 +4,8 @@
 
 package com.korobko.automotiveapp.restapi;
 
+import com.korobko.automotiveapp.models.Driver;
+import com.korobko.automotiveapp.models.RegistrationCard;
 import com.korobko.automotiveapp.utils.Constants;
 
 import java.util.List;
@@ -22,18 +24,18 @@ import retrofit2.http.Path;
 public interface AutomotiveAPI {
 
     @GET(Constants.URL_GET_ALL_REGISTRATION_CARDS +Constants.SLASH+"{id}")
-    Single<Driver> getDriverById(@Path("id") String driverId);
+    Single<RegistrationCard> getRegistrationCardById(@Path("id") String registrationCardId);
 
     @GET(Constants.URL_DELETE_REGISTRATION_CARD +Constants.SLASH+"{id}")
-    Single<Driver> deleteDriverById(@Path("id") String driverId);
+    Single<RegistrationCard> deleteRegistrationCardById(@Path("id") String registrationCardId);
 
     @GET(Constants.URL_GET_ALL_REGISTRATION_CARDS)
-    Single<List<Driver>> getDrivers();
+    Single<List<RegistrationCard>> getRegistrationCards();
 
     @POST(Constants.URL_ADD_REGISTRATION_CARD)
-    Single<ResponseBody> createDriver(@Body Driver driver);
+    Single<ResponseBody> createRegistrationCard(@Body RegistrationCard registrationCard);
 
     @POST(Constants.URL_UPDATE_REGISTRATION_CARD)
-    Single<ResponseBody> updateDriver(@Body Driver driver);
+    Single<RegistrationCard> updateRegistrationCard(@Body RegistrationCard registrationCard);
 
 }

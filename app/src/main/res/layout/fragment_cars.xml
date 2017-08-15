@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017.  | Volodymyr Korobko | volodymyr.korobko@gmail.com
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="cars"
+            type="com.korobko.automotiveapp.client.ui.cars.CarsViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="com.korobko.automotiveapp.client.ui.cars.CarsContract.Presenter" />
+    </data>
+
+<com.korobko.automotiveapp.ScrollChildSwipeRefreshLayout
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onRefresh="@{actionHandler}">
+
+    <RelativeLayout
+        android:id="@+id/carsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/carsLL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="@{cars.notEmpty ? View.VISIBLE : View.GONE}">
+
+            <ListView
+                android:id="@+id/list_view_cars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/noCarsLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="@{cars.notEmpty ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:id="@+id/noCarsAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/touch_feedback"
+                android:gravity="center"
+                android:text="@string/frag_cars_text_view_no_cars"
+                android:onClick="@{() -> actionHandler.addNewCar()}"
+
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+</com.korobko.automotiveapp.ScrollChildSwipeRefreshLayout>
+</layout>
+

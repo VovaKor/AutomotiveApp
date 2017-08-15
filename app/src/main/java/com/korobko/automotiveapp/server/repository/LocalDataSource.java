@@ -7,9 +7,9 @@ package com.korobko.automotiveapp.server.repository;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.korobko.automotiveapp.AutomotiveApp;
-import com.korobko.automotiveapp.restapi.Driver;
-import com.korobko.automotiveapp.restapi.RegistrationCard;
+import com.korobko.automotiveapp.DataSource;
+import com.korobko.automotiveapp.models.Driver;
+import com.korobko.automotiveapp.models.RegistrationCard;
 import com.korobko.automotiveapp.server.orm.DaoMaster;
 import com.korobko.automotiveapp.server.orm.DaoSession;
 import com.korobko.automotiveapp.server.orm.RegistrationCardDao;
@@ -18,10 +18,6 @@ import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 import static com.korobko.automotiveapp.utils.Constants.DATABASE_NAME;
 

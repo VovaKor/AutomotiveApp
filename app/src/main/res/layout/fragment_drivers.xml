@@ -8,14 +8,14 @@
 
         <variable
             name="drivers"
-            type="com.korobko.automotiveapp.client.drivers.DriversViewModel" />
+            type="com.korobko.automotiveapp.client.ui.drivers.DriversViewModel" />
 
         <variable
             name="actionHandler"
-            type="com.korobko.automotiveapp.client.drivers.DriversContract.Presenter" />
+            type="com.korobko.automotiveapp.client.ui.drivers.DriversContract.Presenter" />
     </data>
 
-<com.korobko.automotiveapp.client.drivers.ScrollChildSwipeRefreshLayout
+<com.korobko.automotiveapp.ScrollChildSwipeRefreshLayout
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -63,6 +63,6 @@
 
         </LinearLayout>
     </RelativeLayout>
-</com.korobko.automotiveapp.client.drivers.ScrollChildSwipeRefreshLayout>
+</com.korobko.automotiveapp.ScrollChildSwipeRefreshLayout>
 </layout>
 

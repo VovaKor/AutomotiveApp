@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="driver"
-            type="com.korobko.automotiveapp.restapi.Driver" />
+            name="card"
+            type="com.korobko.automotiveapp.models.RegistrationCard" />
     </data>
 
 <ScrollView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_hint_email"
             android:inputType="textEmailAddress"
-            android:text="@{driver.id}"
+            android:text="@{card.registrationNumber}"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -36,7 +36,7 @@
             android:id="@+id/driver_add_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{driver.firstName}"
+            android:text="@{card.driver.firstName}"
             android:hint="@string/edit_text_hint_first_name"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_hint_last_name"
-            android:text="@{driver.lastName}"
+            android:text="@{card.driver.lastName}"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/driver_add_licence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{driver.licenceNumber}"
+            android:text="@{card.driver.licenceNumber}"
             android:hint="@string/edit_text_hint_licence"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
-            android:text="@{driver.phone}"
+            android:text="@{card.driver.phone}"
             android:hint="@string/edit_text_hint_phone"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"

@@ -7,11 +7,11 @@
 
         <variable
             name="driver"
-            type="com.korobko.automotiveapp.restapi.Driver" />
+            type="com.korobko.automotiveapp.models.Driver" />
 
         <variable
             name="presenter"
-            type="com.korobko.automotiveapp.client.driverdetail.DriverDetailContract.Presenter" />
+            type="com.korobko.automotiveapp.client.ui.drivers.driverdetail.DriverDetailContract.Presenter" />
     </data>
 
     <LinearLayout
@@ -67,7 +67,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{driver.phone}"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+            <Button
+                android:id="@+id/driver_detail_cars"
+                android:layout_below="@id/driver_detail_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_show_cars"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:onClick="@{() -> presenter.loadCars()}"
+                />
         </RelativeLayout>
     </LinearLayout>
 </layout>

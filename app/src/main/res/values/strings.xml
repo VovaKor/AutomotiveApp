@@ -31,4 +31,19 @@
     <string name="error_email_invalid">An email can contain only \'@\', \'.\', latin letters, digits</string>
     <string name="error_email_exists">This email already exists</string>
     <string name="error_delete_driver">An error occurred deleting driver</string>
+    <string name="button_show_cars">Show cars</string>
+    <string name="frag_cars_text_view_no_cars">Add a new car +</string>
+    <string name="fragment_menu_refresh_cars">Refresh cars</string>
+    <string name="success_car_saved">Car saved</string>
+    <string name="error_cars_loading">Error while loading cars</string>
+    <string name="error_car_details_loading">An error occured loading car</string>
+    <string name="menu_fragment_car_delete">DELETE CAR</string>
+    <string name="error_delete_car">An error occurred while deleting car</string>
+    <string name="action_bar_edit_car">Edit car</string>
+    <string name="action_bar_add_car">New car</string>
+    <string name="error_car_exists">This car already exists</string>
+    <string name="edit_text_hint_vin">Enter vehicle IN</string>
+    <string name="edit_text_hint_make">Enter make</string>
+    <string name="edit_text_hint_type">Enter type</string>
+    <string name="edit_text_hint_color">Enter color</string>
 </resources>

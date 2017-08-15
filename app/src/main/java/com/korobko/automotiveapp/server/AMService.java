@@ -8,13 +8,12 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.korobko.automotiveapp.AutomotiveApp;
 import com.korobko.automotiveapp.R;
-import com.korobko.automotiveapp.restapi.RegistrationCard;
-import com.korobko.automotiveapp.server.repository.DataSource;
+import com.korobko.automotiveapp.models.RegistrationCard;
+import com.korobko.automotiveapp.DataSource;
 import com.korobko.automotiveapp.server.repository.LocalDataSource;
 import com.korobko.automotiveapp.utils.Constants;
 import com.koushikdutta.async.http.body.JSONObjectBody;
@@ -26,7 +25,8 @@ import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_CREATED;
 import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_INTERNAL_SERVER_ERROR;
 import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_NOT_FOUND;
 import static com.korobko.automotiveapp.utils.Constants.HTTP_CODE_OK;
-import static com.korobko.automotiveapp.utils.Constants.REGEXP_CARD_ID;
+import static com.korobko.automotiveapp.utils.Constants.REGEXP_EMAIL;
+
 import static com.korobko.automotiveapp.utils.Constants.PORT;
 import static com.korobko.automotiveapp.utils.Constants.SLASH;
 import static com.korobko.automotiveapp.utils.Constants.URL_ADD_REGISTRATION_CARD;
@@ -73,7 +73,7 @@ public class AMService extends Service {
 
     private void startServer() {
 
-        mServer.get(URL_GET_ALL_REGISTRATION_CARDS+SLASH+ REGEXP_CARD_ID, (request, response) -> {
+        mServer.get(URL_GET_ALL_REGISTRATION_CARDS+SLASH+ REGEXP_EMAIL, (request, response) -> {
             String cardId = request.getPath().replace(URL_GET_ALL_REGISTRATION_CARDS+SLASH,"");
             mLocalDataSource.getRegistrationCard(cardId, new DataSource.GetCardCallback() {
                 @Override
@@ -144,7 +144,7 @@ public class AMService extends Service {
             });
         });
 
-        mServer.get(URL_DELETE_REGISTRATION_CARD+REGEXP_CARD_ID, (request, response) -> {
+        mServer.get(URL_DELETE_REGISTRATION_CARD+ REGEXP_EMAIL, (request, response) -> {
             String cardId = request.getPath().replace(URL_DELETE_REGISTRATION_CARD,"");
             mLocalDataSource.deleteRegistrationCard(cardId, new DataSource.DeleteCardCallback() {
                 @Override

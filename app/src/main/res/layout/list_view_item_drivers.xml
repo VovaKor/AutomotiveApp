@@ -7,12 +7,12 @@
     <data>
 
         <variable
-            name="driver"
-            type="com.korobko.automotiveapp.restapi.Driver" />
+            name="card"
+            type="com.korobko.automotiveapp.models.RegistrationCard" />
 
         <variable
             name="actionHandler"
-            type="com.korobko.automotiveapp.client.drivers.DriversItemActionHandler" />
+            type="com.korobko.automotiveapp.client.ui.drivers.DriversItemActionHandler" />
     </data>
 
     <LinearLayout
@@ -23,7 +23,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/list_item_padding"
         android:paddingTop="@dimen/list_item_padding"
-        android:onClick="@{() -> actionHandler.driverClicked(driver)}">
+        android:onClick="@{() -> actionHandler.driverClicked(card)}">
 
         <TextView
             android:id="@+id/itemDriverFirstName"
@@ -32,7 +32,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{driver.firstName}"
+            android:text="@{card.driver.firstName}"
 
             />
         <TextView
@@ -42,7 +42,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{driver.lastName}"
+            android:text="@{card.driver.lastName}"
 
             />
     </LinearLayout>

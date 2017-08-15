@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".client.driverdetail.DriverDetailActivity">
+    tools:context=".client.ui.drivers.driverdetail.DriverDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

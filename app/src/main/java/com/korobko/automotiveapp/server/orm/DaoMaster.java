@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2017.  | Volodymyr Korobko | volodymyr.korobko@gmail.com
- */
-
 package com.korobko.automotiveapp.server.orm;
 
 import android.content.Context;

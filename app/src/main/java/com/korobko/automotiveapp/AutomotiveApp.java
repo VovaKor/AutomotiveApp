@@ -5,6 +5,7 @@
 package com.korobko.automotiveapp;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,10 +24,12 @@ public class AutomotiveApp extends Application {
     private static AutomotiveAPI automotiveAPI;
     private Retrofit retrofit;
     private static Gson gson;
+    private PrefsComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        buildComponentAndInject();
         gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
@@ -37,6 +40,19 @@ public class AutomotiveApp extends Application {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         automotiveAPI = retrofit.create(AutomotiveAPI.class);
+    }
+
+    public void buildComponentAndInject() {
+        component = PrefsComponent.Initializer.init(this);
+        component.inject(this);
+    }
+
+    public PrefsComponent component() {
+        return component;
+    }
+
+    public static AutomotiveApp get(Context context) {
+        return (AutomotiveApp) context.getApplicationContext();
     }
 
     public static AutomotiveAPI getAutomotiveAPI() {

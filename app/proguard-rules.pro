@@ -23,5 +23,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class android.support.v4.widget.DrawerLayout { *; }
+-keep class android.databinding.** { *; }
+-keepattributes *Annotation*
 -dontwarn java.lang.invoke.*
 -dontwarn **$$Lambda$*

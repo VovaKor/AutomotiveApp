@@ -8,7 +8,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.korobko.automotiveapp.restapi.Driver;
+import com.korobko.automotiveapp.models.Driver;
+import com.korobko.automotiveapp.models.RegistrationCard;
 import com.korobko.automotiveapp.utils.Constants;
 import com.koushikdutta.async.callback.CompletedCallback;
 import com.koushikdutta.async.future.Future;
@@ -27,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,7 +45,7 @@ import okhttp3.ResponseBody;
 public class ServerTests extends AndroidTestCase {
     AsyncHttpServer httpServer;
     private String json;
-    private Driver driver;
+    private RegistrationCard card;
     private String responseJson;
     private String jsonResult;
 
@@ -52,9 +54,12 @@ public class ServerTests extends AndroidTestCase {
         super.setUp();
         httpServer = new AsyncHttpServer();
         int i = 1;
-        driver = new Driver("driver"+i+"@driver.com",
+        Driver driver = new Driver(UUID.randomUUID().toString(),
                 "Test first name "+i, "Test last name "+i, "555-55-5"+i,"ADSF3456"+i);
-        json = AutomotiveApp.getGson().toJson(driver);
+        card = new RegistrationCard();
+        card.setRegistrationNumber("driver"+i+"@driver.com");
+        card.setDriver(driver);
+        json = AutomotiveApp.getGson().toJson(card);
 
 
         httpServer.post(Constants.URL_ADD_REGISTRATION_CARD, new HttpServerRequestCallback() {
@@ -138,7 +143,7 @@ public class ServerTests extends AndroidTestCase {
         }
 
         new CompositeDisposable().add(AutomotiveApp.getAutomotiveAPI()
-                .createDriver(driver)
+                .createRegistrationCard(card)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<ResponseBody>() {
