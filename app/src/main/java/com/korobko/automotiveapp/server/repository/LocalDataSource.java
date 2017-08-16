@@ -48,7 +48,7 @@ public class LocalDataSource implements DataSource {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DATABASE_NAME);
         Database db = helper.getWritableDb();
         mDaoSession = new DaoMaster(db).newSession();
-        bootstrapDB();
+       // bootstrapDB();
     }
 
     @Override
