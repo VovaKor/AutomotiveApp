@@ -7,17 +7,13 @@ package com.korobko.automotiveapp.client.ui.cars.addeditcar;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
+import com.annimon.stream.Stream;
+import com.annimon.stream.Optional;
 import com.korobko.automotiveapp.AutomotiveApp;
 import com.korobko.automotiveapp.DataSource;
 import com.korobko.automotiveapp.client.repository.shared.JsonPreference;
 import com.korobko.automotiveapp.models.Car;
-import com.korobko.automotiveapp.models.Driver;
 import com.korobko.automotiveapp.models.RegistrationCard;
-
-import java.util.Optional;
-import java.util.UUID;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -161,21 +157,6 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
 
     }
 
-    private void createCard(RegistrationCard card) {
-        mRepository.createRegistrationCard(card, new DataSource.SaveCardCallback() {
-            @Override
-            public void onSuccess() {
-
-                mAddEditCarView.showCarsList();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-
-    }
     private Observable<RegistrationCard> getCardObservable(){
         return Observable.just(
                 loadRegistrationCardFromPref()
@@ -198,7 +179,7 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
         }
     }
     private Optional<Car> getCarFromRegistrationCard(RegistrationCard card, String carId){
-        return card.getCars().stream()
+        return Stream.of(card.getCars())
                 .filter(c -> c.getVehicleIN().matches(carId))
                 .findFirst();
     }

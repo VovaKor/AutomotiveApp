@@ -6,6 +6,7 @@ package com.korobko.automotiveapp.client.ui.cars.cardetail;
 
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Stream;
 import com.korobko.automotiveapp.AutomotiveApp;
 import com.korobko.automotiveapp.DataSource;
 import com.korobko.automotiveapp.client.repository.Repository;
@@ -107,7 +108,7 @@ public class CarDetailPresenter implements CarDetailContract.Presenter {
     }
 
     private Car getCarFromRegistrationCard(RegistrationCard card, String carId){
-        return card.getCars().stream()
+        return Stream.of(card.getCars())
                 .filter(c -> c.getVehicleIN().matches(carId))
                 .findFirst()
                 .get();

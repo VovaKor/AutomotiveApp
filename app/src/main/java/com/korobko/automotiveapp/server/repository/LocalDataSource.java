@@ -7,6 +7,7 @@ package com.korobko.automotiveapp.server.repository;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Stream;
 import com.korobko.automotiveapp.DataSource;
 import com.korobko.automotiveapp.models.Car;
 import com.korobko.automotiveapp.models.Driver;
@@ -23,6 +24,7 @@ import org.greenrobot.greendao.database.Database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 
 import static com.korobko.automotiveapp.utils.Constants.DATABASE_NAME;
 
@@ -59,7 +61,7 @@ public class LocalDataSource implements DataSource {
         //We need insert each entity manually
         cardDao.insert(entityRegCard);
         driverDao.insert(entityRegCard.getDriver());
-        entityRegCard.getCars().forEach(carDao::insert);
+        Stream.of(entityRegCard.getCars()).forEach(carDao::insert);
 
         EntityRegCard card = cardDao.load(registrationCard.getRegistrationNumber());
         if (card!=null){
@@ -78,7 +80,7 @@ public class LocalDataSource implements DataSource {
             callback.onDataNotAvailable();
         }else {
             List<RegistrationCard> registrationCards = new ArrayList<>();
-            cards.forEach(card -> {
+            Stream.of(cards).forEach(card -> {
                 RegistrationCard registrationCard = RegistrationCardMapper.fromInternal(card);
                 registrationCards.add(registrationCard);
             });
@@ -111,7 +113,7 @@ public class LocalDataSource implements DataSource {
         //We need update each entity manually
         cardDao.update(entityRegCard);
         driverDao.update(entityRegCard.getDriver());
-        entityRegCard.getCars().forEach(carDao::update);
+        Stream.of(entityRegCard.getCars()).forEach(carDao::update);
 
         EntityRegCard regCard = cardDao.load(registrationCard.getRegistrationNumber());
         if (regCard!=null){
