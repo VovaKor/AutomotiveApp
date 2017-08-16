@@ -36,7 +36,7 @@ public class CarDao extends AbstractDao<Car, String> {
 
     private DaoSession daoSession;
 
-    private Query<Car> registrationCard_CarsQuery;
+    private Query<Car> entityRegCard_CarsQuery;
 
     public CarDao(DaoConfig config) {
         super(config);
@@ -55,7 +55,7 @@ public class CarDao extends AbstractDao<Car, String> {
                 "\"MAKE\" TEXT NOT NULL ," + // 1: make
                 "\"TYPE\" TEXT NOT NULL ," + // 2: type
                 "\"COLOR\" TEXT NOT NULL ," + // 3: color
-                "\"ID_REG_CARD\" TEXT);"); // 4: id_reg_card
+                "\"ID_REG_CARD\" TEXT NOT NULL );"); // 4: id_reg_card
     }
 
     /** Drops the underlying database table. */
@@ -71,11 +71,7 @@ public class CarDao extends AbstractDao<Car, String> {
         stmt.bindString(2, entity.getMake());
         stmt.bindString(3, entity.getType());
         stmt.bindString(4, entity.getColor());
- 
-        String id_reg_card = entity.getId_reg_card();
-        if (id_reg_card != null) {
-            stmt.bindString(5, id_reg_card);
-        }
+        stmt.bindString(5, entity.getId_reg_card());
     }
 
     @Override
@@ -85,11 +81,7 @@ public class CarDao extends AbstractDao<Car, String> {
         stmt.bindString(2, entity.getMake());
         stmt.bindString(3, entity.getType());
         stmt.bindString(4, entity.getColor());
- 
-        String id_reg_card = entity.getId_reg_card();
-        if (id_reg_card != null) {
-            stmt.bindString(5, id_reg_card);
-        }
+        stmt.bindString(5, entity.getId_reg_card());
     }
 
     @Override
@@ -110,7 +102,7 @@ public class CarDao extends AbstractDao<Car, String> {
             cursor.getString(offset + 1), // make
             cursor.getString(offset + 2), // type
             cursor.getString(offset + 3), // color
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // id_reg_card
+            cursor.getString(offset + 4) // id_reg_card
         );
         return entity;
     }
@@ -121,7 +113,7 @@ public class CarDao extends AbstractDao<Car, String> {
         entity.setMake(cursor.getString(offset + 1));
         entity.setType(cursor.getString(offset + 2));
         entity.setColor(cursor.getString(offset + 3));
-        entity.setId_reg_card(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setId_reg_card(cursor.getString(offset + 4));
      }
     
     @Override
@@ -148,16 +140,16 @@ public class CarDao extends AbstractDao<Car, String> {
         return true;
     }
     
-    /** Internal query to resolve the "cars" to-many relationship of RegistrationCard. */
-    public List<Car> _queryRegistrationCard_Cars(String id_reg_card) {
+    /** Internal query to resolve the "cars" to-many relationship of EntityRegCard. */
+    public List<Car> _queryEntityRegCard_Cars(String id_reg_card) {
         synchronized (this) {
-            if (registrationCard_CarsQuery == null) {
+            if (entityRegCard_CarsQuery == null) {
                 QueryBuilder<Car> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.Id_reg_card.eq(null));
-                registrationCard_CarsQuery = queryBuilder.build();
+                entityRegCard_CarsQuery = queryBuilder.build();
             }
         }
-        Query<Car> query = registrationCard_CarsQuery.forCurrentThread();
+        Query<Car> query = entityRegCard_CarsQuery.forCurrentThread();
         query.setParameter(0, id_reg_card);
         return query.list();
     }

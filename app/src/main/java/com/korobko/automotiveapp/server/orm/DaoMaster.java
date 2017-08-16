@@ -21,14 +21,14 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        RegistrationCardDao.createTable(db, ifNotExists);
+        EntityRegCardDao.createTable(db, ifNotExists);
         CarDao.createTable(db, ifNotExists);
         DriverDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        RegistrationCardDao.dropTable(db, ifExists);
+        EntityRegCardDao.dropTable(db, ifExists);
         CarDao.dropTable(db, ifExists);
         DriverDao.dropTable(db, ifExists);
     }
@@ -49,7 +49,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(RegistrationCardDao.class);
+        registerDaoClass(EntityRegCardDao.class);
         registerDaoClass(CarDao.class);
         registerDaoClass(DriverDao.class);
     }

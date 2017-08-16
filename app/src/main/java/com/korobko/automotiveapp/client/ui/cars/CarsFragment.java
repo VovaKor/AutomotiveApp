@@ -27,6 +27,7 @@ import com.korobko.automotiveapp.R;
 import com.korobko.automotiveapp.ScrollChildSwipeRefreshLayout;
 import com.korobko.automotiveapp.client.ui.cars.addeditcar.AddEditCarActivity;
 import com.korobko.automotiveapp.client.ui.cars.cardetail.CarDetailActivity;
+
 import com.korobko.automotiveapp.databinding.FragmentCarsBinding;
 import com.korobko.automotiveapp.databinding.ListViewItemCarsBinding;
 import com.korobko.automotiveapp.models.Car;

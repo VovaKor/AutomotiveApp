@@ -39,6 +39,9 @@ public final class Car {
     @Expose
     @NonNull
     private String color;
+    @SerializedName("irc")
+    @Expose
+    @NonNull
     private String id_reg_card;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -54,9 +57,9 @@ public final class Car {
         this.color = color;
     }
 
-    @Generated(hash = 1491475376)
-    public Car(@NonNull String vehicleIN, @NonNull String make,
-            @NonNull String type, @NonNull String color, String id_reg_card) {
+    @Generated(hash = 933349420)
+    public Car(@NonNull String vehicleIN, @NonNull String make, @NonNull String type,
+            @NonNull String color, @NonNull String id_reg_card) {
         this.vehicleIN = vehicleIN;
         this.make = make;
         this.type = type;

@@ -8,16 +8,21 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.korobko.automotiveapp.DataSource;
+import com.korobko.automotiveapp.models.Car;
 import com.korobko.automotiveapp.models.Driver;
+import com.korobko.automotiveapp.models.EntityRegCard;
 import com.korobko.automotiveapp.models.RegistrationCard;
+import com.korobko.automotiveapp.server.orm.CarDao;
 import com.korobko.automotiveapp.server.orm.DaoMaster;
 import com.korobko.automotiveapp.server.orm.DaoSession;
-import com.korobko.automotiveapp.server.orm.RegistrationCardDao;
+import com.korobko.automotiveapp.server.orm.DriverDao;
+import com.korobko.automotiveapp.server.orm.EntityRegCardDao;
 
 import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.korobko.automotiveapp.utils.Constants.DATABASE_NAME;
 
@@ -46,9 +51,16 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void createRegistrationCard(@NonNull RegistrationCard registrationCard, @NonNull SaveCardCallback callback) {
-        RegistrationCardDao cardDao = mDaoSession.getRegistrationCardDao();
-        cardDao.insert(registrationCard);
-        RegistrationCard card = cardDao.load(registrationCard.getRegistrationNumber());
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
+        CarDao carDao = mDaoSession.getCarDao();
+        EntityRegCard entityRegCard = RegistrationCardMapper.toInternal(registrationCard);
+
+        //We need insert each car entity manually
+        cardDao.insert(entityRegCard);
+
+        entityRegCard.getCars().forEach(carDao::insert);
+
+        EntityRegCard card = cardDao.load(registrationCard.getRegistrationNumber());
         if (card!=null){
             callback.onSuccess();
         }else {
@@ -59,21 +71,34 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getRegistrationCards(final @NonNull LoadCardsCallback callback) {
-        RegistrationCardDao cardDao = mDaoSession.getRegistrationCardDao();
-        List<RegistrationCard> cards = cardDao.loadAll();
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
+        List<EntityRegCard> cards = cardDao.loadAll();
         if (cards.isEmpty()){
-            callback.onCardsLoaded(cards);
-        }else {
             callback.onDataNotAvailable();
+        }else {
+            List<RegistrationCard> registrationCards = new ArrayList<>();
+            cards.forEach(card -> {
+                RegistrationCard registrationCard = RegistrationCardMapper.fromInternal(card);
+                registrationCards.add(registrationCard);
+            });
+
+            callback.onCardsLoaded(registrationCards);
         }
     }
 
 
     @Override
     public void getRegistrationCard(@NonNull String registrationCardId, final @NonNull GetCardCallback callback) {
-        RegistrationCardDao cardDao = mDaoSession.getRegistrationCardDao();
-        RegistrationCard card = cardDao.load(registrationCardId);
-        if (card!=null){
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
+        EntityRegCard entityRegCard = cardDao.load(registrationCardId);
+        if (entityRegCard!=null){
+        RegistrationCard card = RegistrationCardMapper.fromInternal(entityRegCard);
+
+//            //Relations are resolved on first access so we have to call this
+//            //methods to initialize entities
+//            card.setDriver(driverDao.load(card.getId_driver()));
+//            card.getCars();
+//            //Then just return entity
             callback.onCardLoaded(card);
         }else {
             callback.onDataNotAvailable();
@@ -82,10 +107,17 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void saveRegistrationCard(@NonNull RegistrationCard registrationCard, @NonNull GetCardCallback callback) {
-        RegistrationCardDao cardDao = mDaoSession.getRegistrationCardDao();
-        cardDao.update(registrationCard);
-        RegistrationCard card = cardDao.load(registrationCard.getRegistrationNumber());
-        if (card!=null){
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
+        CarDao carDao = mDaoSession.getCarDao();
+        EntityRegCard entityRegCard = RegistrationCardMapper.toInternal(registrationCard);
+        //We need update each car entity manually
+        cardDao.update(entityRegCard);
+
+        entityRegCard.getCars().forEach(carDao::update);
+
+        EntityRegCard regCard = cardDao.load(registrationCard.getRegistrationNumber());
+        if (regCard!=null){
+            RegistrationCard card = RegistrationCardMapper.fromInternal(regCard);
             callback.onCardLoaded(card);
         }else {
             callback.onDataNotAvailable();
@@ -94,13 +126,13 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void deleteRegistrationCard(@NonNull String registrationCardId, @NonNull DeleteCardCallback callback) {
-        RegistrationCardDao cardDao = mDaoSession.getRegistrationCardDao();
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
         //We need this queryBuilder() to delete all entities in bulk
         cardDao.queryBuilder()
-                .where(RegistrationCardDao.Properties.RegistrationNumber.eq(registrationCardId))
+                .where(EntityRegCardDao.Properties.RegistrationNumber.eq(registrationCardId))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
-        RegistrationCard card = cardDao.load(registrationCardId);
+        EntityRegCard card = cardDao.load(registrationCardId);
         if (card!=null){
             callback.onSuccess();
         }else {
@@ -109,11 +141,22 @@ public class LocalDataSource implements DataSource {
     }
 
     private void bootstrapDB() {
-        List<Driver> drivers = new ArrayList<Driver>();
+        EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
+        CarDao carDao = mDaoSession.getCarDao();
         for (int i = 0; i < 100 ; i++) {
-            Driver driver = new Driver("driver"+i+"@driver.com",
+            EntityRegCard card = new EntityRegCard();
+            card.setRegistrationNumber("driver"+i+"@driver.com");
+            Driver driver = new Driver(UUID.randomUUID().toString(),
                     "Test first name "+i, "Test last name "+i, "555-55-5"+i,"ADSF3456"+i);
-            drivers.add(driver);
+            card.setDriver(driver);
+            cardDao.insert(card);
+            for (int j = 0; j < 5; j++) {
+                Car car = new Car(UUID.randomUUID().toString(),
+                        "Test make "+i, "Test type "+i, "test color"+i);
+                car.setId_reg_card(card.getRegistrationNumber());
+                carDao.insert(car);
+            }
         }
+
     }
 }

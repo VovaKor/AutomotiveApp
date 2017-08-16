@@ -12,6 +12,7 @@ import com.korobko.automotiveapp.DataSource;
 import com.korobko.automotiveapp.models.Driver;
 import com.korobko.automotiveapp.models.RegistrationCard;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.korobko.automotiveapp.utils.Constants.REGEXP_EMAIL;
@@ -88,6 +89,7 @@ public class AddEditDriverPresenter implements AddEditDriverContract.Presenter,
                         RegistrationCard card = new RegistrationCard();
                         card.setRegistrationNumber(id);
                         card.setDriver(driverToSave);
+                        card.setCars(new ArrayList<>());
                         createCard(card);
                     }
 

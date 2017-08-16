@@ -8,11 +8,11 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.korobko.automotiveapp.models.RegistrationCard;
+import com.korobko.automotiveapp.models.EntityRegCard;
 import com.korobko.automotiveapp.models.Car;
 import com.korobko.automotiveapp.models.Driver;
 
-import com.korobko.automotiveapp.server.orm.RegistrationCardDao;
+import com.korobko.automotiveapp.server.orm.EntityRegCardDao;
 import com.korobko.automotiveapp.server.orm.CarDao;
 import com.korobko.automotiveapp.server.orm.DriverDao;
 
@@ -25,11 +25,11 @@ import com.korobko.automotiveapp.server.orm.DriverDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig registrationCardDaoConfig;
+    private final DaoConfig entityRegCardDaoConfig;
     private final DaoConfig carDaoConfig;
     private final DaoConfig driverDaoConfig;
 
-    private final RegistrationCardDao registrationCardDao;
+    private final EntityRegCardDao entityRegCardDao;
     private final CarDao carDao;
     private final DriverDao driverDao;
 
@@ -37,8 +37,8 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
-        registrationCardDaoConfig = daoConfigMap.get(RegistrationCardDao.class).clone();
-        registrationCardDaoConfig.initIdentityScope(type);
+        entityRegCardDaoConfig = daoConfigMap.get(EntityRegCardDao.class).clone();
+        entityRegCardDaoConfig.initIdentityScope(type);
 
         carDaoConfig = daoConfigMap.get(CarDao.class).clone();
         carDaoConfig.initIdentityScope(type);
@@ -46,23 +46,23 @@ public class DaoSession extends AbstractDaoSession {
         driverDaoConfig = daoConfigMap.get(DriverDao.class).clone();
         driverDaoConfig.initIdentityScope(type);
 
-        registrationCardDao = new RegistrationCardDao(registrationCardDaoConfig, this);
+        entityRegCardDao = new EntityRegCardDao(entityRegCardDaoConfig, this);
         carDao = new CarDao(carDaoConfig, this);
         driverDao = new DriverDao(driverDaoConfig, this);
 
-        registerDao(RegistrationCard.class, registrationCardDao);
+        registerDao(EntityRegCard.class, entityRegCardDao);
         registerDao(Car.class, carDao);
         registerDao(Driver.class, driverDao);
     }
     
     public void clear() {
-        registrationCardDaoConfig.clearIdentityScope();
+        entityRegCardDaoConfig.clearIdentityScope();
         carDaoConfig.clearIdentityScope();
         driverDaoConfig.clearIdentityScope();
     }
 
-    public RegistrationCardDao getRegistrationCardDao() {
-        return registrationCardDao;
+    public EntityRegCardDao getEntityRegCardDao() {
+        return entityRegCardDao;
     }
 
     public CarDao getCarDao() {
