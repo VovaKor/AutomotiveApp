@@ -15,6 +15,7 @@ import com.korobko.automotiveapp.models.Car;
 import com.korobko.automotiveapp.models.Driver;
 import com.korobko.automotiveapp.models.RegistrationCard;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import io.reactivex.Observable;
@@ -76,13 +77,13 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
         }else {
             if (isNewCar()){
                 mDisposable = getCardObservable().subscribe(card -> {
-                            Car car = getCarFromRegistrationCard(card, vIN);
+                            Optional<Car> car = getCarFromRegistrationCard(card, vIN);
 
                             // The view may not be able to handle UI updates anymore
                             if (!mAddEditCarView.isActive()) {
                                 return;
                             }
-                            if (car != null) {
+                            if (car.isPresent()) {
                                 mAddEditCarView.showErrorCarExist();
                             } else {
                                 Car carToSave = new Car(vIN, make, type, color, card.getRegistrationNumber());
@@ -95,11 +96,14 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
 
             }else {
                 if (mRegistrationCard!=null) {
-                    Car car = getCarFromRegistrationCard(mRegistrationCard, vIN);
-                    car.setMake(make);
-                    car.setType(type);
-                    car.setColor(color);
-                    saveCard(mRegistrationCard);
+                    Optional<Car> car = getCarFromRegistrationCard(mRegistrationCard, vIN);
+                    car.ifPresent(c -> {
+                        c.setMake(make);
+                        c.setType(type);
+                        c.setColor(color);
+                        saveCard(mRegistrationCard);
+                    });
+
                 }
             }
 
@@ -115,14 +119,14 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
         }
 
         mDisposable = getCardObservable().subscribe(card -> {
-                    Car car = getCarFromRegistrationCard(card, mCarId);
+                    Optional<Car> car = getCarFromRegistrationCard(card, mCarId);
 
                     // The view may not be able to handle UI updates anymore
                     if (!mAddEditCarView.isActive()) {
                         return;
                     }
-                    if (car != null) {
-                        mAddEditCarView.setCar(car);
+                    if (car.isPresent()) {
+                        mAddEditCarView.setCar(car.get());
                     } else {
                         mAddEditCarView.showErrorLoadCar();
                     }
@@ -193,10 +197,9 @@ public class AddEditCarPresenter implements AddEditCarContract.Presenter{
             return null;
         }
     }
-    private Car getCarFromRegistrationCard(RegistrationCard card, String carId){
+    private Optional<Car> getCarFromRegistrationCard(RegistrationCard card, String carId){
         return card.getCars().stream()
                 .filter(c -> c.getVehicleIN().matches(carId))
-                .findFirst()
-                .get();
+                .findFirst();
     }
 }

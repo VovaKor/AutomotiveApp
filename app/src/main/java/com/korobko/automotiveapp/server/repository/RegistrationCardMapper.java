@@ -22,6 +22,7 @@ public class RegistrationCardMapper {
         EntityRegCard entityRegCard = new EntityRegCard();
         entityRegCard.setRegistrationNumber(registrationCard.getRegistrationNumber());
         entityRegCard.setDriver(registrationCard.getDriver());
+        entityRegCard.setId_driver(registrationCard.getDriver().getId());
         entityRegCard.setCars(registrationCard.getCars());
         return entityRegCard;
     }

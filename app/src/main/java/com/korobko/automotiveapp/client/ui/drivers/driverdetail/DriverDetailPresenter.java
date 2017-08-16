@@ -50,7 +50,7 @@ public class DriverDetailPresenter implements DriverDetailContract.Presenter {
                     return;
                 }
                 if (card != null) {
-                    mDriverDetailView.showDriver(card.getDriver());
+                    mDriverDetailView.showDriver(card);
                 } else {
                     mDriverDetailView.showErrorLoadDriver();
                 }

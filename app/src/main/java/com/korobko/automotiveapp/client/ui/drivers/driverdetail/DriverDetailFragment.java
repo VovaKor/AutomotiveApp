@@ -23,7 +23,7 @@ import com.korobko.automotiveapp.client.ui.cars.CarsActivity;
 import com.korobko.automotiveapp.client.ui.drivers.addeditdriver.AddEditDriverActivity;
 
 import com.korobko.automotiveapp.databinding.FragmentDriverDetailsBinding;
-import com.korobko.automotiveapp.models.Driver;
+import com.korobko.automotiveapp.models.RegistrationCard;
 import com.korobko.automotiveapp.utils.Constants;
 
 /**
@@ -117,8 +117,8 @@ public class DriverDetailFragment extends Fragment implements DriverDetailContra
     }
 
     @Override
-    public void showDriver(Driver driver) {
-        mViewDataBinding.setDriver(driver);
+    public void showDriver(RegistrationCard card) {
+        mViewDataBinding.setCard(card);
     }
 
     @Override

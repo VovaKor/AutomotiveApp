@@ -53,11 +53,12 @@ public class LocalDataSource implements DataSource {
     public void createRegistrationCard(@NonNull RegistrationCard registrationCard, @NonNull SaveCardCallback callback) {
         EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
         CarDao carDao = mDaoSession.getCarDao();
+        DriverDao driverDao = mDaoSession.getDriverDao();
         EntityRegCard entityRegCard = RegistrationCardMapper.toInternal(registrationCard);
 
-        //We need insert each car entity manually
+        //We need insert each entity manually
         cardDao.insert(entityRegCard);
-
+        driverDao.insert(entityRegCard.getDriver());
         entityRegCard.getCars().forEach(carDao::insert);
 
         EntityRegCard card = cardDao.load(registrationCard.getRegistrationNumber());
@@ -94,11 +95,6 @@ public class LocalDataSource implements DataSource {
         if (entityRegCard!=null){
         RegistrationCard card = RegistrationCardMapper.fromInternal(entityRegCard);
 
-//            //Relations are resolved on first access so we have to call this
-//            //methods to initialize entities
-//            card.setDriver(driverDao.load(card.getId_driver()));
-//            card.getCars();
-//            //Then just return entity
             callback.onCardLoaded(card);
         }else {
             callback.onDataNotAvailable();
@@ -109,10 +105,12 @@ public class LocalDataSource implements DataSource {
     public void saveRegistrationCard(@NonNull RegistrationCard registrationCard, @NonNull GetCardCallback callback) {
         EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
         CarDao carDao = mDaoSession.getCarDao();
+        DriverDao driverDao = mDaoSession.getDriverDao();
         EntityRegCard entityRegCard = RegistrationCardMapper.toInternal(registrationCard);
-        //We need update each car entity manually
-        cardDao.update(entityRegCard);
 
+        //We need update each entity manually
+        cardDao.update(entityRegCard);
+        driverDao.update(entityRegCard.getDriver());
         entityRegCard.getCars().forEach(carDao::update);
 
         EntityRegCard regCard = cardDao.load(registrationCard.getRegistrationNumber());
@@ -141,15 +139,22 @@ public class LocalDataSource implements DataSource {
     }
 
     private void bootstrapDB() {
+        mDaoSession.deleteAll(EntityRegCard.class);
+        mDaoSession.deleteAll(Driver.class);
+        mDaoSession.deleteAll(Car.class);
+        mDaoSession.clear();
         EntityRegCardDao cardDao = mDaoSession.getEntityRegCardDao();
         CarDao carDao = mDaoSession.getCarDao();
+        DriverDao driverDao = mDaoSession.getDriverDao();
         for (int i = 0; i < 100 ; i++) {
             EntityRegCard card = new EntityRegCard();
             card.setRegistrationNumber("driver"+i+"@driver.com");
             Driver driver = new Driver(UUID.randomUUID().toString(),
                     "Test first name "+i, "Test last name "+i, "555-55-5"+i,"ADSF3456"+i);
             card.setDriver(driver);
+            card.setId_driver(driver.getId());
             cardDao.insert(card);
+            driverDao.insert(card.getDriver());
             for (int j = 0; j < 5; j++) {
                 Car car = new Car(UUID.randomUUID().toString(),
                         "Test make "+i, "Test type "+i, "test color"+i);

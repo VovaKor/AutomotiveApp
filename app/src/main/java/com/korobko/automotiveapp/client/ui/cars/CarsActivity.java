@@ -35,6 +35,9 @@ public class CarsActivity extends AppCompatActivity{
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //To get arrow "navigation back" worked
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);

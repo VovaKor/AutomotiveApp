@@ -6,8 +6,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="driver"
-            type="com.korobko.automotiveapp.models.Driver" />
+            name="card"
+            type="com.korobko.automotiveapp.models.RegistrationCard" />
 
         <variable
             name="presenter"
@@ -31,13 +31,13 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:visibility="@{driver == null ? View.GONE : View.VISIBLE}">
+            android:visibility="@{card.driver == null ? View.GONE : View.VISIBLE}">
 
             <TextView
                 android:id="@+id/driver_detail_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{driver.id}"
+                android:text="@{card.registrationNumber}"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -45,28 +45,28 @@
                 android:layout_below="@id/driver_detail_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{driver.firstName}"
+                android:text="@{card.driver.firstName}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <TextView
                 android:id="@+id/driver_detail_last_name"
                 android:layout_below="@id/driver_detail_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{driver.lastName}"
+                android:text="@{card.driver.lastName}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <TextView
                 android:id="@+id/driver_detail_licence"
                 android:layout_below="@id/driver_detail_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{driver.licenceNumber}"
+                android:text="@{card.driver.licenceNumber}"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <TextView
                 android:id="@+id/driver_detail_phone"
                 android:layout_below="@id/driver_detail_licence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{driver.phone}"
+                android:text="@{card.driver.phone}"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
             <Button
